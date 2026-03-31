@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aurexon - Concept Brand Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   CSS VARIABLES & RESET
+   ============================================================ */
+:root {
+  --charcoal:     #1C1C1C;
+  --forest:       #2F5D50;
+  --sage:         #A8BFA3;
+  --beige:        #EAE4DC;
+  --olive:        #7A8F7B;
+  --gold:         #C7A24A;
+  --gold-light:   #D9BC7A;
+  --white:        #FAFAF8;
+  --glass-bg:     rgba(234, 228, 220, 0.45);
+  --glass-border: rgba(199, 162, 74, 0.18);
+  --text-main:    #1C1C1C;
+  --text-muted:   #5A6B5B;
+  --radius:       18px;
+  --radius-sm:    10px;
+  --transition:   0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--beige);
+  color: var(--text-main);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   BACKGROUND TEXTURE & GRAIN
+   ============================================================ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(47,93,80,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 85% 80%, rgba(199,162,74,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(168,191,163,0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================================
+   STICKY NAVBAR
+   ============================================================ */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 0 5vw;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  background: rgba(234, 228, 220, 0.72);
+  border-bottom: 1px solid rgba(199,162,74,0.14);
+  transition: background var(--transition), box-shadow var(--transition);
+}
+
+.navbar.scrolled {
+  background: rgba(234, 228, 220, 0.88);
+  box-shadow: 0 4px 32px rgba(28,28,28,0.07);
+}
+
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+
+.nav-brand span {
+  color: var(--gold);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.4rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  position: relative;
+  transition: color var(--transition);
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; left: 0;
+  width: 0; height: 1.5px;
+  background: var(--gold);
+  transition: width var(--transition);
+}
+
+.nav-links a:hover { color: var(--forest); }
+.nav-links a:hover::after { width: 100%; }
+
+.nav-tag {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(199,162,74,0.4);
+  padding: 5px 14px;
+  border-radius: 30px;
+}
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+.hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 5vw 80px;
+  overflow: hidden;
+}
+
+/* Large decorative circle */
+.hero::before {
+  content: '';
+  position: absolute;
+  width: min(700px, 90vw);
+  height: min(700px, 90vw);
+  border-radius: 50%;
+  border: 1px solid rgba(47,93,80,0.12);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse-ring 6s ease-in-out infinite;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  width: min(500px, 70vw);
+  height: min(500px, 70vw);
+  border-radius: 50%;
+  border: 1px solid rgba(199,162,74,0.1);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse-ring 6s ease-in-out infinite 1.5s;
+}
+
+@keyframes pulse-ring {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  50%       { transform: translate(-50%, -50%) scale(1.04); opacity: 0.5; }
+}
+
+.hero-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.4rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1), transform 0.9s cubic-bezier(0.22,1,0.36,1);
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(5rem, 14vw, 11rem);
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  color: var(--charcoal);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s cubic-bezier(0.22,1,0.36,1) 0.18s, transform 1s cubic-bezier(0.22,1,0.36,1) 0.18s;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--forest);
+}
+
+.hero-tagline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--olive);
+  margin-top: 1.2rem;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1) 0.36s, transform 0.9s cubic-bezier(0.22,1,0.36,1) 0.36s;
+}
+
+.hero-sub {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--sage);
+  margin-top: 2rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1) 0.52s, transform 0.9s cubic-bezier(0.22,1,0.36,1) 0.52s;
+}
+
+.hero-divider {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 2.5rem auto 0;
+  opacity: 0;
+  transition: opacity 1s ease 0.72s;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 40px; left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 1s ease 1s;
+}
+
+/* When hero is "ready", animate all children in */
+.hero.hero-ready .hero-eyebrow,
+.hero.hero-ready .hero-title,
+.hero.hero-ready .hero-tagline,
+.hero.hero-ready .hero-sub,
+.hero.hero-ready .hero-divider,
+.hero.hero-ready .hero-scroll {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-scroll span {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--sage);
+}
+
+.scroll-line {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scroll-drop 2s ease-in-out infinite;
+}
+
+@keyframes scroll-drop {
+  0%   { transform: scaleY(0); transform-origin: top; opacity: 0; }
+  40%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  60%  { transform: scaleY(1); transform-origin: bottom; opacity: 1; }
+  100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+}
+
+/* ============================================================
+   LAYOUT HELPERS
+   ============================================================ */
+.section {
+  position: relative;
+  z-index: 1;
+  padding: 100px 5vw;
+}
+
+.section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-label::before {
+  content: '';
+  display: inline-block;
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 500;
+  line-height: 1.12;
+  color: var(--charcoal);
+  margin-bottom: 1.8rem;
+}
+
+.section-title em {
+  font-style: italic;
+  color: var(--forest);
+}
+
+.body-text {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.82;
+  color: #3A4A3B;
+  max-width: 680px;
+}
+
+/* ============================================================
+   GLASS CARD
+   ============================================================ */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px) saturate(1.3);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 2.8rem 3rem;
+  box-shadow: 0 8px 40px rgba(28,28,28,0.06), 0 1px 0 rgba(255,255,255,0.6) inset;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.glass-card:hover {
+  box-shadow: 0 20px 60px rgba(28,28,28,0.1), 0 1px 0 rgba(255,255,255,0.6) inset;
+  transform: translateY(-3px);
+}
+
+/* ============================================================
+   SECTION: INTRODUCTION
+   ============================================================ */
+.intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.intro-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 9rem;
+  font-weight: 700;
+  color: rgba(47,93,80,0.07);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-bottom: -2rem;
+}
+
+.intro-right .body-text { max-width: 100%; }
+
+/* ============================================================
+   SECTION: PROBLEM STATEMENT
+   ============================================================ */
+.problem-bg {
+  background: var(--charcoal);
+  margin: 0 -0; /* full-width feel within constraints */
+  border-radius: 28px;
+  padding: 80px min(5vw, 60px);
+  position: relative;
+  overflow: hidden;
+}
+
+.problem-bg::before {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(47,93,80,0.25) 0%, transparent 70%);
+  top: -200px; right: -200px;
+  pointer-events: none;
+}
+
+.problem-bg .section-label { color: var(--sage); }
+.problem-bg .section-label::before { background: var(--sage); }
+.problem-bg .section-title { color: var(--beige); }
+.problem-bg .body-text { color: rgba(234,228,220,0.7); }
+
+.problem-items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+  margin-top: 3rem;
+}
+
+.problem-item {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(168,191,163,0.14);
+  border-radius: var(--radius-sm);
+  padding: 1.6rem 1.8rem;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.problem-item:hover {
+  background: rgba(47,93,80,0.18);
+  border-color: rgba(168,191,163,0.3);
+}
+
+.problem-item-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  background: rgba(199,162,74,0.15);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.problem-item h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--beige);
+  margin-bottom: 0.5rem;
+}
+
+.problem-item p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: rgba(234,228,220,0.55);
+}
+
+/* ============================================================
+   SECTION: RESEARCH & INSIGHTS
+   ============================================================ */
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 3.5rem;
+}
+
+.insight-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 2rem 2.2rem;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.insight-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 0;
+  background: linear-gradient(to bottom, var(--gold), var(--forest));
+  transition: height 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+
+.insight-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(28,28,28,0.09); }
+.insight-card:hover::before { height: 100%; }
+
+.insight-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+.insight-card h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--charcoal);
+  margin-bottom: 0.6rem;
+}
+
+.insight-card p {
+  font-size: 0.87rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   SECTION: BRAND STRATEGY — SPLIT LAYOUT
+   ============================================================ */
+.strategy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 3.5rem;
+}
+
+.strategy-block {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 2.4rem 2.6rem;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.strategy-block h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--charcoal);
+  margin-bottom: 1.4rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(199,162,74,0.2);
+}
+
+.strategy-block ul {
+  list-style: none;
+}
+
+.strategy-block ul li {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(47,93,80,0.08);
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.strategy-block ul li::before {
+  content: '—';
+  color: var(--gold);
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.personality-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.tag {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--forest);
+  background: rgba(47,93,80,0.08);
+  border: 1px solid rgba(47,93,80,0.15);
+  padding: 5px 14px;
+  border-radius: 30px;
+  transition: background var(--transition), color var(--transition);
+}
+
+.tag:hover {
+  background: var(--forest);
+  color: var(--beige);
+}
+
+/* ============================================================
+   SECTION: SOLUTION
+   ============================================================ */
+.solution-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+}
+
+.solution-features {
+  list-style: none;
+  margin-top: 2.5rem;
+}
+
+.solution-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  padding: 1.4rem 0;
+  border-bottom: 1px solid rgba(47,93,80,0.1);
+}
+
+.solution-features li:last-child { border-bottom: none; }
+
+.sol-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(47,93,80,0.12), rgba(199,162,74,0.1));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  border: 1px solid rgba(47,93,80,0.12);
+}
+
+.sol-text h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--charcoal);
+  margin-bottom: 0.3rem;
+}
+
+.sol-text p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* Decorative brand swatch */
+.brand-swatch-block {
+  position: sticky;
+  top: 100px;
+}
+
+.brand-circle {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--forest) 0%, var(--olive) 50%, var(--sage) 100%);
+  margin: 0 auto 2rem;
+  box-shadow: 0 20px 60px rgba(47,93,80,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 0.04em;
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-12px); }
+}
+
+.palette-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.swatch {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.5);
+  transition: transform var(--transition), box-shadow var(--transition);
+  cursor: pointer;
+  position: relative;
+}
+
+.swatch:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 16px rgba(28,28,28,0.2);
+}
+
+.swatch::after {
+  content: attr(data-name);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--charcoal);
+  color: var(--beige);
+  font-size: 0.6rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition);
+}
+
+.swatch:hover::after { opacity: 1; }
+
+/* ============================================================
+   SECTION: VISUAL IDENTITY
+   ============================================================ */
+.identity-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 3.5rem;
+}
+
+.identity-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 2.4rem 2rem;
+  text-align: center;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.identity-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(28,28,28,0.1);
+}
+
+.identity-icon {
+  font-size: 2.2rem;
+  margin-bottom: 1.2rem;
+  display: block;
+}
+
+.identity-card h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--charcoal);
+  margin-bottom: 0.6rem;
+}
+
+.identity-card p {
+  font-size: 0.83rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   SECTION: APPLICATIONS / MOCKUPS
+   ============================================================ */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.4rem;
+  margin-top: 3.5rem;
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  background: linear-gradient(135deg, rgba(47,93,80,0.12), rgba(168,191,163,0.2));
+  cursor: pointer;
+  box-shadow: 0 4px 24px rgba(28,28,28,0.08);
+  border: 1px solid rgba(255,255,255,0.4);
+}
+
+.gallery-item:first-child { aspect-ratio: 16/10; grid-column: 1 / -1; }
+
+.gallery-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Placeholder when image fails to load */
+.gallery-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(47,93,80,0.15) 0%, rgba(199,162,74,0.1) 100%);
+}
+
+.gallery-placeholder .ph-icon {
+  font-size: 2.5rem;
+  opacity: 0.5;
+}
+
+.gallery-placeholder .ph-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--olive);
+  font-weight: 500;
+}
+
+.gallery-item:hover img { transform: scale(1.06); }
+
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(28,28,28,0.55) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity var(--transition);
+  display: flex;
+  align-items: flex-end;
+  padding: 1.6rem;
+}
+
+.gallery-item:hover .gallery-overlay { opacity: 1; }
+
+.gallery-caption {
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--beige);
+}
+
+/* ============================================================
+   SECTION: MARKETING THINKING
+   ============================================================ */
+.marketing-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 3.5rem;
+}
+
+.stat-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 2.4rem 2rem;
+  text-align: center;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 48px rgba(28,28,28,0.1);
+}
+
+.stat-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.2rem;
+  font-weight: 600;
+  color: var(--forest);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.stat-value span {
+  font-size: 1.8rem;
+  color: var(--gold);
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.8rem;
+}
+
+.stat-desc {
+  font-size: 0.83rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   SECTION: CONCLUSION
+   ============================================================ */
+.conclusion-wrap {
+  text-align: center;
+  padding: 100px 5vw 140px;
+  position: relative;
+  z-index: 1;
+}
+
+.conclusion-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(47,93,80,0.04) 50%, transparent 100%);
+  pointer-events: none;
+}
+
+.conclusion-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.conclusion-wrap .section-title {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.conclusion-wrap .body-text {
+  margin: 0 auto 3rem;
+  font-size: 1.05rem;
+  line-height: 1.88;
+  max-width: 600px;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--beige);
+  background: var(--forest);
+  border: 1px solid transparent;
+  padding: 14px 34px;
+  border-radius: 40px;
+  text-decoration: none;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  box-shadow: 0 8px 30px rgba(47,93,80,0.3);
+}
+
+.cta-btn:hover {
+  background: var(--charcoal);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(28,28,28,0.25);
+}
+
+.cta-btn svg {
+  width: 14px; height: 14px;
+  transition: transform var(--transition);
+}
+
+.cta-btn:hover svg { transform: translateX(4px); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  position: relative;
+  z-index: 1;
+  padding: 32px 5vw;
+  border-top: 1px solid rgba(199,162,74,0.14);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--charcoal);
+}
+
+.footer-brand span { color: var(--gold); }
+
+.footer-copy {
+  font-size: 0.75rem;
+  color: var(--sage);
+  letter-spacing: 0.06em;
+}
+
+/* ============================================================
+   SCROLL ANIMATIONS
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 900px) {
+  .intro-grid,
+  .solution-layout,
+  .strategy-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+
+  .intro-number { display: none; }
+
+  .problem-items,
+  .insights-grid,
+  .identity-grid,
+  .marketing-stats { grid-template-columns: 1fr; }
+
+  .gallery-grid { grid-template-columns: 1fr; }
+  .gallery-item:first-child { aspect-ratio: 4/3; grid-column: auto; }
+
+  .nav-links { display: none; }
+
+  .brand-swatch-block { position: static; }
+}
+
+@media (max-width: 600px) {
+  .glass-card { padding: 1.8rem 1.6rem; }
+  .problem-bg { padding: 60px 5vw; }
+  footer { flex-direction: column; gap: 10px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     STICKY NAVBAR
+     ============================================================ -->
+<nav class="navbar" id="navbar">
+  <a href="#" class="nav-brand">Aurex<span>on</span></a>
+  <ul class="nav-links">
+    <li><a href="#intro">About</a></li>
+    <li><a href="#problem">Problem</a></li>
+    <li><a href="#strategy">Strategy</a></li>
+    <li><a href="#identity">Identity</a></li>
+    <li><a href="#work">Work</a></li>
+  </ul>
+  <span class="nav-tag">Case Study</span>
+</nav>
+
+
+<!-- ============================================================
+     1. HERO SECTION
+     ============================================================ -->
+<section class="hero" id="hero">
+  <p class="hero-eyebrow">Brand Case Study · 2026</p>
+  <h1 class="hero-title">Aurex<em>on</em></h1>
+  <p class="hero-tagline">Modern Skincare Essentials</p>
+  <p class="hero-sub">Clean &nbsp;·&nbsp; Calm &nbsp;·&nbsp; Conscious</p>
+  <div class="hero-divider"></div>
+
+  <div class="hero-scroll" aria-hidden="true">
+    <span>Scroll</span>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     2. INTRODUCTION
+     ============================================================ -->
+<section class="section" id="intro">
+  <div class="section-inner">
+    <div class="intro-grid">
+      <div>
+        <div class="intro-number reveal">01</div>
+        <p class="section-label reveal">Introduction</p>
+        <h2 class="section-title reveal">A brand built on <em>clarity</em></h2>
+      </div>
+      <div class="glass-card reveal reveal-delay-2">
+        <p class="body-text">Aurexon is a concept skincare brand created to explore how modern skincare can be simplified through clean design, clear communication, and thoughtful product systems.</p>
+        <br />
+        <p class="body-text">This project focuses on solving real problems in the skincare industry through branding and strategic design, bridging the gap between premium positioning and genuine accessibility.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     3. PROBLEM STATEMENT
+     ============================================================ -->
+<section class="section" id="problem">
+  <div class="section-inner">
+    <div class="problem-bg">
+      <p class="section-label reveal">02 · Problem Statement</p>
+      <h2 class="section-title reveal">The industry creates<br/><em>confusion</em>, not clarity</h2>
+      <p class="body-text reveal reveal-delay-1">Modern skincare brands often overwhelm consumers instead of guiding them. Understanding the core friction points was essential to building something better.</p>
+
+      <div class="problem-items">
+        <div class="problem-item reveal reveal-delay-1">
+          <div class="problem-item-icon">🔄</div>
+          <h4>Overcomplicated Routines</h4>
+          <p>Too many products with overlapping benefits create decision fatigue and reduce effectiveness.</p>
+        </div>
+        <div class="problem-item reveal reveal-delay-2">
+          <div class="problem-item-icon">🧪</div>
+          <h4>Lack of Transparency</h4>
+          <p>Ingredient lists are dense, misleading, or buried, eroding trust at the point of purchase.</p>
+        </div>
+        <div class="problem-item reveal reveal-delay-3">
+          <div class="problem-item-icon">🎨</div>
+          <h4>Inconsistent Branding</h4>
+          <p>Overdesigned visuals compete for attention instead of building recognition and trust.</p>
+        </div>
+        <div class="problem-item reveal reveal-delay-4">
+          <div class="problem-item-icon">💰</div>
+          <h4>Inaccessible Pricing</h4>
+          <p>Premium products remain out of reach for a generation that demands both quality and value.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     4. RESEARCH & INSIGHTS
+     ============================================================ -->
+<section class="section" id="research">
+  <div class="section-inner">
+    <p class="section-label reveal">03 · Research &amp; Insights</p>
+    <h2 class="section-title reveal">What the data <em>revealed</em></h2>
+    <p class="body-text reveal reveal-delay-1">Through studying modern skincare brands and consumer behavior, four key design principles emerged as consistently impactful.</p>
+
+    <div class="insights-grid">
+      <div class="insight-card reveal reveal-delay-1">
+        <p class="insight-num">01</p>
+        <h4>Minimal Design Builds Trust</h4>
+        <p>Consumers associate visual simplicity with product quality and brand honesty.</p>
+      </div>
+      <div class="insight-card reveal reveal-delay-2">
+        <p class="insight-num">02</p>
+        <h4>Clarity Improves Decisions</h4>
+        <p>Clear ingredient communication shortens the path from consideration to conversion.</p>
+      </div>
+      <div class="insight-card reveal reveal-delay-3">
+        <p class="insight-num">03</p>
+        <h4>Less Products = Less Confusion</h4>
+        <p>Curated product systems guide users more effectively than extensive catalogues.</p>
+      </div>
+      <div class="insight-card reveal reveal-delay-4">
+        <p class="insight-num">04</p>
+        <h4>Consistency Drives Recognition</h4>
+        <p>Repeated visual language across touchpoints compounds brand familiarity over time.</p>
+      </div>
+    </div>
+
+    <div class="glass-card reveal" style="margin-top:1.5rem; display:flex; align-items:center; gap:1.6rem;">
+      <span style="font-size:2rem;">💡</span>
+      <p style="font-family:'Playfair Display',serif; font-size:1.12rem; font-style:italic; color:var(--forest); line-height:1.6;">
+        "Simplicity is not just aesthetic — it improves usability."
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     5. BRAND STRATEGY
+     ============================================================ -->
+<section class="section" id="strategy">
+  <div class="section-inner">
+    <p class="section-label reveal">04 · Brand Strategy</p>
+    <h2 class="section-title reveal">Positioning for the <em>intentional</em> consumer</h2>
+    <p class="body-text reveal reveal-delay-1">A modern skincare brand focused on simplicity, clarity, and trust — designed for those who want less noise and more meaning.</p>
+
+    <div class="strategy-grid">
+      <div class="strategy-block reveal reveal-delay-1">
+        <h3>Target Audience</h3>
+        <ul>
+          <li>Young adults aged 18–35</li>
+          <li>Skincare beginners seeking guidance</li>
+          <li>Minimal lifestyle advocates</li>
+          <li>Consumers skeptical of overcomplication</li>
+        </ul>
+      </div>
+      <div class="strategy-block reveal reveal-delay-2">
+        <h3>Brand Personality</h3>
+        <div class="personality-tags">
+          <span class="tag">Clean</span>
+          <span class="tag">Calm</span>
+          <span class="tag">Intelligent</span>
+          <span class="tag">Trustworthy</span>
+          <span class="tag">Modern</span>
+          <span class="tag">Accessible</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     6. SOLUTION
+     ============================================================ -->
+<section class="section" id="solution">
+  <div class="section-inner">
+    <div class="solution-layout">
+      <div>
+        <p class="section-label reveal">05 · The Solution</p>
+        <h2 class="section-title reveal">Aurexon: <em>clarity</em> over complexity</h2>
+        <ul class="solution-features">
+          <li class="reveal reveal-delay-1">
+            <div class="sol-icon">🌿</div>
+            <div class="sol-text">
+              <h4>Minimal Product System</h4>
+              <p>Essential only skincare that eliminates redundancy and reduces the routine to what truly works.</p>
+            </div>
+          </li>
+          <li class="reveal reveal-delay-2">
+            <div class="sol-icon">📋</div>
+            <div class="sol-text">
+              <h4>Clear Ingredient Communication</h4>
+              <p>Every ingredient explained in plain language — no jargon, no greenwashing.</p>
+            </div>
+          </li>
+          <li class="reveal reveal-delay-3">
+            <div class="sol-icon">✦</div>
+            <div class="sol-text">
+              <h4>Premium Visual Identity</h4>
+              <p>Clean, considered design that signals quality without shouting.</p>
+            </div>
+          </li>
+          <li class="reveal reveal-delay-4">
+            <div class="sol-icon">💛</div>
+            <div class="sol-text">
+              <h4>Affordable Premium Positioning</h4>
+              <p>High quality product experience at a price point that respects the consumer.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="brand-swatch-block reveal reveal-delay-2">
+        <div class="brand-circle">Ax</div>
+        <div class="palette-row">
+          <div class="swatch" style="background:#1C1C1C;" data-name="Charcoal"></div>
+          <div class="swatch" style="background:#2F5D50;" data-name="Forest"></div>
+          <div class="swatch" style="background:#A8BFA3;" data-name="Sage"></div>
+          <div class="swatch" style="background:#EAE4DC;" data-name="Beige"></div>
+          <div class="swatch" style="background:#7A8F7B;" data-name="Olive"></div>
+          <div class="swatch" style="background:#C7A24A;" data-name="Gold"></div>
+        </div>
+        <p style="text-align:center;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage);margin-top:1.5rem;">Brand Colour System</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     7. VISUAL IDENTITY
+     ============================================================ -->
+<section class="section" id="identity">
+  <div class="section-inner">
+    <p class="section-label reveal">06 · Visual Identity</p>
+    <h2 class="section-title reveal">Every detail <em>intentional</em></h2>
+    <p class="body-text reveal reveal-delay-1">The visual identity is built on restraint. Each element earns its place through function, not decoration.</p>
+
+    <div class="identity-grid">
+      <div class="identity-card reveal reveal-delay-1">
+        <span class="identity-icon">✦</span>
+        <h4>Logo Concept</h4>
+        <p>A refined wordmark representing modern elegance and clarity — geometric, confident, and timeless.</p>
+      </div>
+      <div class="identity-card reveal reveal-delay-2">
+        <span class="identity-icon">🎨</span>
+        <h4>Colour Language</h4>
+        <p>Green tones for nature and trust. Beige for skin comfort. Charcoal for depth. Gold for a premium touch.</p>
+      </div>
+      <div class="identity-card reveal reveal-delay-3">
+        <span class="identity-icon">Aa</span>
+        <h4>Typography System</h4>
+        <p>Elegant serif for brand presence and authority. Clean sans-serif for legibility and modern clarity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     8. APPLICATIONS / MOCKUPS
+     ============================================================ -->
+<section class="section" id="work">
+  <div class="section-inner">
+    <p class="section-label reveal">07 · Applications</p>
+    <h2 class="section-title reveal">Brand in the <em>world</em></h2>
+    <p class="body-text reveal reveal-delay-1">From packaging to digital presence — the Aurexon identity applied across real touchpoints.</p>
+
+    <div class="gallery-grid">
+      <!-- Hero gallery image -->
+      <div class="gallery-item reveal">
+        <img src="MOOD POST.png" alt="Aurexon Brand Feed" onerror="this.style.display='none'" />
+        
+        <div class="gallery-overlay">
+          <span class="gallery-caption">Brand Feed &amp; Social Presence</span>
+        </div>
+      </div>
+
+      <div class="gallery-item reveal reveal-delay-1">
+        <img src="AUREXON — CLEANSER MOCKUP.jpg" alt="Aurexon Cleanser" onerror="this.style.display='none'" />
+
+        <div class="gallery-overlay">
+          <span class="gallery-caption">Gentle Cleanser — Hero Product</span>
+        </div>
+      </div>
+
+      <div class="gallery-item reveal reveal-delay-2">
+        <img src="packaging-box-mockup.jpg" alt="Aurexon Packaging" onerror="this.style.display='none'" />
+        
+        <div class="gallery-overlay">
+          <span class="gallery-caption">Product Packaging Design</span>
+        </div>
+      </div>
+
+      <div class="gallery-item reveal reveal-delay-3">
+        <img src="AUREXON LOGO.jpg" alt="Aurexon Logo" onerror="this.style.display='none'" />
+        
+        <div class="gallery-overlay">
+          <span class="gallery-caption">Wordmark &amp; Logo System</span>
+        </div>
+
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     9. MARKETING THINKING
+     ============================================================ -->
+<section class="section" id="marketing">
+  <div class="section-inner">
+    <p class="section-label reveal">08 · Marketing Thinking</p>
+    <h2 class="section-title reveal">Design decisions with <em>business impact</em></h2>
+    <p class="body-text reveal reveal-delay-1">Every visual and strategic choice was made with measurable outcomes in mind. Good branding is business strategy.</p>
+
+    <div class="marketing-stats">
+      <div class="stat-card reveal reveal-delay-1">
+        <div class="stat-value">CTR<span>↑</span></div>
+        <div class="stat-label">Click-Through Rate</div>
+        <div class="stat-desc">Clean, bold visuals attract attention faster in crowded social feeds and paid media.</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-2">
+        <div class="stat-value">2x<span>+</span></div>
+        <div class="stat-label">Engagement</div>
+        <div class="stat-desc">Minimal layouts improve readability, increasing time-on-page and content interactions.</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-3">
+        <div class="stat-value">↑<span>%</span></div>
+        <div class="stat-label">Conversion Rate</div>
+        <div class="stat-desc">Professional, trustworthy branding reduces purchase hesitation and builds brand confidence.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     10. CONCLUSION
+     ============================================================ -->
+<section class="conclusion-wrap" id="conclusion">
+  <div class="conclusion-inner">
+    <p class="section-label reveal" style="justify-content:center;">09 · Conclusion</p>
+    <h2 class="section-title reveal">Strategy meets <em>craft</em></h2>
+    <p class="body-text reveal reveal-delay-1">This project demonstrates a strategic approach to branding combining design, research, and marketing thinking to create a meaningful and effective brand system. Aurexon is proof that clarity, when executed with precision, becomes a competitive advantage.</p>
+    <a href="#hero" class="cta-btn reveal reveal-delay-2">
+      Back to Top
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="8" y1="14" x2="8" y2="2"/>
+        <polyline points="2,8 8,2 14,8"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <span class="footer-brand">Aurex<span>on</span></span>
+  <span class="footer-copy">© 2026 — Concept Brand Case Study</span>
+</footer>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+/* --- Hero entrance — trigger after fonts + layout are ready --- */
+const heroSection = document.querySelector('.hero');
+if (heroSection) {
+  // Small timeout ensures layout is painted before transition starts
+  setTimeout(() => heroSection.classList.add('hero-ready'), 80);
+}
+
+/* --- Navbar scroll state --- */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+/* --- Scroll reveal observer --- */
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+revealEls.forEach(el => observer.observe(el));
+
+/* --- Smooth scroll for nav links --- */
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      const offset = 80;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>
